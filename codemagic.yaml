@@ -1,0 +1,53 @@
+workflows:
+  wg-keys-android:
+    name: WG Keys SF2 Player 2.1 - Android APK
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+
+    environment:
+      flutter: stable
+      java: 17
+      vars:
+        PACKAGE_NAME: "com.wgkeys.sf2player"
+
+    scripts:
+      - name: Configure Flutter SDK path
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+
+      - name: Generate Gradle wrapper if missing
+        script: |
+          if [ ! -f android/gradlew ]; then
+            mkdir -p /tmp/wgkeys-android-backup
+            cp android/settings.gradle /tmp/wgkeys-android-backup/settings.gradle
+            cp android/build.gradle /tmp/wgkeys-android-backup/build.gradle
+            cp android/gradle.properties /tmp/wgkeys-android-backup/gradle.properties
+            cp android/app/build.gradle /tmp/wgkeys-android-backup/app-build.gradle
+            cp android/app/src/main/AndroidManifest.xml /tmp/wgkeys-android-backup/AndroidManifest.xml
+            cp android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt /tmp/wgkeys-android-backup/MainActivity.kt
+            flutter create --platforms=android .
+            cp /tmp/wgkeys-android-backup/settings.gradle android/settings.gradle
+            cp /tmp/wgkeys-android-backup/build.gradle android/build.gradle
+            cp /tmp/wgkeys-android-backup/gradle.properties android/gradle.properties
+            cp /tmp/wgkeys-android-backup/app-build.gradle android/app/build.gradle
+            cp /tmp/wgkeys-android-backup/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+            cp /tmp/wgkeys-android-backup/MainActivity.kt android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt
+            echo "Gradle wrapper generated and project-specific Android files restored."
+          fi
+
+      - name: Verify WG Keys Android integration
+        script: |
+          test -f android/gradlew
+          test -f android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt
+          grep -q "fluidsynth-kmp:1.1.1" android/app/build.gradle
+
+      - name: Build release APK
+        script: |
+          flutter build apk --release
+
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
