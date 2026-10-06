@@ -45,7 +45,7 @@ workflows:
       - name: Diagnose FluidSynth dependency
         script: |
           echo "=== FLUIDSYNTH DEPENDENCY ==="
-          ./android/gradlew :app:dependencies --configuration releaseCompileClasspath | grep -i -C 3 fluidsynth || true
+          ./android/gradlew :app:dependencies --configuration releaseCompileClasspath | grep -i -C 5 fluidsynth || true
           echo "=== END DIAGNOSIS ==="
       - name: Build release APK
         script: |
