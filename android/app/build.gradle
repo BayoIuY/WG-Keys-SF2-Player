@@ -39,5 +39,5 @@ flutter {
 }
 
 dependencies {
-    implementation 'dev.kotlinds:fluidsynth-kmp-android:1.1.1'
+    implementation 'dev.kotlinds:fluidsynth-kmp:1.1.0'
 }
