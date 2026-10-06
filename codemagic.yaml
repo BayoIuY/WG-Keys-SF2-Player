@@ -44,8 +44,13 @@ workflows:
         script: |
           test -f android/gradlew
           test -f android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt
-          grep -q "fluidsynth-kmp:1.1.0" android/app/build.gradle
+          grep -q "fluidsynth-kmp:1.1.1" android/app/build.gradle
 
+      - name: Diagnose FluidSynth dependency
+        script: |
+          echo "=== FLUIDSYNTH DEPENDENCY ==="
+          ./android/gradlew :app:dependencies --configuration releaseCompileClasspath | grep -i -C 3 fluidsynth || true
+          echo "=== END DIAGNOSIS ==="
       - name: Build release APK
         script: |
           flutter build apk --release
