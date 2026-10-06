@@ -44,7 +44,7 @@ workflows:
         script: |
           test -f android/gradlew
           test -f android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt
-          grep -q "fluidsynth-kmp:1.1.1" android/app/build.gradle
+          grep -q "fluidsynth-kmp-android:1.1.1" android/app/build.gradle
 
       - name: Build release APK
         script: |
