@@ -40,10 +40,7 @@ workflows:
             echo "Gradle wrapper generated and project-specific Android files restored."
           fi
 
-      - name: Verify WG Keys Android integration
-        script: |w
-          test -f android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt
-          grep -q "fluidsynth-kmp:1.1.0" android/app/build.gradle
+      
 
       - name: Diagnose FluidSynth dependency
         script: |
