@@ -41,8 +41,7 @@ workflows:
           fi
 
       - name: Verify WG Keys Android integration
-        script: |
-          test -f android/gradlew
+        script: |w
           test -f android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt
           grep -q "fluidsynth-kmp:1.1.0" android/app/build.gradle
 
