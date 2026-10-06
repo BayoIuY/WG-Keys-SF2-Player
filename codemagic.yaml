@@ -30,6 +30,7 @@ workflows:
             cp android/app/src/main/AndroidManifest.xml /tmp/wgkeys-android-backup/AndroidManifest.xml
             cp android/app/src/main/kotlin/com/wgkeys/sf2player/MainActivity.kt /tmp/wgkeys-android-backup/MainActivity.kt
             flutter create --platforms=android .
+            sed -i 's/gradle-[0-9.]*-bin.zip/gradle-8.14-bin.zip/' android/gradle/wrapper/gradle-wrapper.properties
             cp /tmp/wgkeys-android-backup/settings.gradle android/settings.gradle
             cp /tmp/wgkeys-android-backup/build.gradle android/build.gradle
             cp /tmp/wgkeys-android-backup/gradle.properties android/gradle.properties
@@ -51,3 +52,5 @@ workflows:
 
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
+grep -n -A3 "flutter create" codemagic.yaml
+
