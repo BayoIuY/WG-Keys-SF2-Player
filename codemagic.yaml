@@ -52,5 +52,4 @@ workflows:
 
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
-grep -n -A3 "flutter create" codemagic.yaml
 
